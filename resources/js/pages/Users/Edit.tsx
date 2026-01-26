@@ -8,7 +8,7 @@ import { FormEventHandler } from 'react';
 export default function Edit({ user }: UserEditProps) {
     const breadcrumbs: BreadcrumbItem[] = [
         {
-            title: 'Dashboard',
+            title: 'Inicio',
             href: dashboard().url,
         },
         {

@@ -13,14 +13,14 @@ import {
 import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid, User, UsersRound } from 'lucide-react';
+import { BookOpen, Folder, HomeIcon, User, UsersRound } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
     {
-        title: 'Dashboard',
+        title: 'Inicio',
         href: dashboard(),
-        icon: LayoutGrid,
+        icon: HomeIcon,
     },
     {
         title: 'Usuarios',
