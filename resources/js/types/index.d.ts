@@ -1,8 +1,11 @@
+// resources/js/types/index.d.ts
 import { InertiaLinkProps } from '@inertiajs/react';
 import { LucideIcon } from 'lucide-react';
 
 export interface Auth {
     user: User;
+    permissions: string[];
+    roles: string[];
 }
 
 export interface BreadcrumbItem {
@@ -25,8 +28,9 @@ export interface NavItem {
 
 export interface SharedData {
     name: string;
-    auth: Auth;
+    auth: Auth | null;
     sidebarOpen: boolean;
+
     [key: string]: unknown;
 }
 
@@ -39,5 +43,6 @@ export interface User {
     two_factor_enabled?: boolean;
     created_at: string;
     updated_at: string;
-    [key: string]: unknown; // This allows for additional properties...
+
+    [key: string]: unknown;
 }
