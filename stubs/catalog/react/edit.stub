@@ -1,0 +1,36 @@
+import { Head } from '@inertiajs/react';
+import { update } from '@/routes/{{modelVariablePlural}}';
+import AppLayout from '@/layouts/app-layout';
+import {{modelName}}Form from './Form';
+import { SharedData } from '@/types';
+
+interface {{modelName}} {
+{{interface}}
+}
+
+interface EditProps extends SharedData {
+    {{modelVariable}}: {{modelName}};
+}
+
+export default function Edit({ {{modelVariable}} }: EditProps) {
+    return (
+        <AppLayout>
+            <Head title="Editar {{modelName}}" />
+
+            <div className="py-12">
+                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                        <div className="p-6">
+                            <h1 className="mb-6 text-3xl font-bold">Editar {{modelName}}</h1>
+                            <{{modelName}}Form
+                                {{modelVariable}}={ {{modelVariable}}}
+                                action={update({ {{modelVariable}}: {{modelVariable}}.id }).url}
+                                method="put"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </AppLayout>
+    );
+}

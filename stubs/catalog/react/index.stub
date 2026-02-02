@@ -1,0 +1,86 @@
+import { ColumnDef } from '@tanstack/react-table';
+import { Head } from '@inertiajs/react';
+import { ArrowUpDown } from 'lucide-react';
+import { create, edit, destroy } from '@/routes/{{modelVariablePlural}}';
+
+import { DataTable } from '@/components/DataTable';
+import { DataTableActions } from '@/components/DataTableActions';
+import { Button } from '@/components/ui/button';
+import { SharedData } from '@/types';
+import AppLayout from '@/layouts/app-layout';
+
+interface {{modelName}} {
+{{interface}}
+}
+
+interface {{modelName}}IndexProps extends SharedData {
+    {{modelVariable}}s: {{modelName}}[];
+}
+
+export default function Index({ {{modelVariable}}s }: {{modelName}}IndexProps) {
+    const columns: ColumnDef<{{modelName}}>[] = [
+        {
+            accessorKey: 'id',
+            header: ({ column }) => {
+                return (
+                    <Button
+                        variant="ghost"
+                        onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+                    >
+                        ID
+                        <ArrowUpDown className="ml-2 h-4 w-4" />
+                    </Button>
+                );
+            },
+        },
+        {{columns}},
+        {
+            accessorKey: 'created_at',
+            header: 'Fecha de Creación',
+            cell: ({ row }) => {
+                const date = new Date(row.getValue('created_at'));
+                return date.toLocaleDateString('es-GT');
+            },
+        },
+        {
+            id: 'actions',
+            cell: ({ row }) => {
+                const {{modelVariable}} = row.original;
+                return (
+                    <DataTableActions
+                        id={ {{modelVariable}}.id}
+                        editRoute={edit({ {{modelVariable}}: {{modelVariable}}.id }).url}
+                        deleteRoute={destroy({ {{modelVariable}}: {{modelVariable}}.id }).url}
+                        editPermission="edit {{modelVariablePlural}}"
+                        deletePermission="delete {{modelVariablePlural}}"
+                    />
+                );
+            },
+        },
+    ];
+
+    return (
+        <AppLayout>
+            <Head title="{{modelName}}" />
+
+            <div className="py-12">
+                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                        <div className="p-6">
+                            <h1 className="mb-6 text-3xl font-bold">{{modelName}}</h1>
+                            <DataTable
+                                columns={columns}
+                                data={{{modelVariablePlural}}}
+                                searchKey="name"
+                                searchPlaceholder="Buscar {{modelVariablePlural}}..."
+                                createRoute={create().url}
+                                createLabel="Crear {{modelName}}"
+                                showCreate={true}
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </AppLayout>
+    );
+}

@@ -1,0 +1,38 @@
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class {{modelName}}Request extends FormRequest
+{
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    public function rules(): array
+    {
+        $rules = [
+{{rules}}
+        ];
+
+        // Si es update, agregar excepción para unique
+        if ($this->isMethod('PUT') || $this->isMethod('PATCH')) {
+            // Ajustar reglas para update si es necesario
+        }
+
+        return $rules;
+    }
+
+    public function messages(): array
+    {
+        return [
+            'required' => 'El campo :attribute es obligatorio.',
+            'string' => 'El campo :attribute debe ser texto.',
+            'max' => 'El campo :attribute no debe exceder :max caracteres.',
+            'integer' => 'El campo :attribute debe ser un número entero.',
+            'unique' => 'El :attribute ya está en uso.',
+        ];
+    }
+}

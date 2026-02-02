@@ -6,6 +6,9 @@ export function usePermission() {
 
     const can = (permission: string): boolean => {
         if (!auth?.permissions) return false;
+        if (auth?.roles?.includes('SuperAdmin')) {
+            return true;
+        }
         return auth.permissions.includes(permission);
     };
 
@@ -16,6 +19,9 @@ export function usePermission() {
 
     const hasAnyPermission = (permissions: string[]): boolean => {
         if (!auth?.permissions) return false;
+        if (auth?.roles?.includes('SuperAdmin')) {
+            return true;
+        }
         return permissions.some((permission) =>
             auth.permissions.includes(permission),
         );

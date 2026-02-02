@@ -1,0 +1,99 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\{{modelName}};
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use App\Http\Requests\{{modelName}}Request;
+use Illuminate\Routing\Controllers\Middleware;
+use Inertia\Inertia;
+use Inertia\Response;
+use Illuminate\Http\RedirectResponse;
+
+class {{modelName}}Controller extends Controller implements HasMiddleware
+{
+    public static function middleware(): array
+    {
+        return [
+            'auth',
+            new Middleware('permission:view {{tableName}}', only: ['index', 'show']),
+            new Middleware('permission:create {{tableName}}', only: ['create', 'store']),
+            new Middleware('permission:edit {{tableName}}', only: ['edit', 'update']),
+            new Middleware('permission:delete {{tableName}}', only: ['destroy']),
+        ];
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(): Response
+    {
+        ${{modelVariable}}s = {{modelName}}::latest()->get();
+
+        return Inertia::render('{{modelName}}/Index', [
+            '{{modelVariable}}s' => ${{modelVariable}}s,
+        ]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create(): Response
+    {
+        return Inertia::render('{{modelName}}/Create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store({{modelName}}Request $request): RedirectResponse
+    {
+        {{modelName}}::create($request->validated());
+
+        return redirect()->route('{{tableName}}.index')
+            ->with('success', '{{modelName}} creado exitosamente.');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show({{modelName}} ${{modelVariable}}): Response
+    {
+        return Inertia::render('{{modelName}}/Show', [
+            '{{modelVariable}}' => ${{modelVariable}},
+        ]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit({{modelName}} ${{modelVariable}}): Response
+    {
+        return Inertia::render('{{modelName}}/Edit', [
+            '{{modelVariable}}' => ${{modelVariable}},
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update({{modelName}}Request $request, {{modelName}} ${{modelVariable}}): RedirectResponse
+    {
+        ${{modelVariable}}->update($request->validated());
+
+        return redirect()->route('{{tableName}}.index')
+            ->with('success', '{{modelName}} actualizado exitosamente.');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy({{modelName}} ${{modelVariable}}): RedirectResponse
+    {
+        ${{modelVariable}}->delete();
+
+        return redirect()->route('{{tableName}}.index')
+            ->with('success', '{{modelName}} eliminado exitosamente.');
+    }
+}

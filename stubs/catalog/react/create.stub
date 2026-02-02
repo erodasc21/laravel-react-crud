@@ -1,0 +1,27 @@
+import { Head, router } from '@inertiajs/react';
+import { store } from '@/routes/{{modelVariablePlural}}';
+import AppLayout from '@/layouts/app-layout';
+import {{modelName}}Form from './Form';
+import { SharedData } from '@/types';
+
+export default function Create(props: SharedData) {
+    return (
+        <AppLayout>
+            <Head title="Crear {{modelName}}" />
+
+            <div className="py-12">
+                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                        <div className="p-6">
+                            <h1 className="mb-6 text-3xl font-bold">Crear {{modelName}}</h1>
+                            <{{modelName}}Form
+                                action={store().url}
+                                method="post"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </AppLayout>
+    );
+}
